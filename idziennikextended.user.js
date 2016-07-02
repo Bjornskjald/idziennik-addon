@@ -2,6 +2,7 @@
 // @name        iDziennik Extended
 // @namespace   https://github.com/jasrosa/idziennikextended/raw/master/idziennikextended.user.js
 // @include     https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx
+// @downloadURL https://github.com/jasrosa/idziennikextended/raw/master/idziennikextended.user.js
 // @version     1.0
 // @grant       none
 // ==/UserScript==

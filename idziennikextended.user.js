@@ -80,8 +80,8 @@ function pobranoWiadomosc(result) // Funkcja zmieniona, dziala ze skryptem oraz 
     {
         odbiorcyPelnaLista.push('<div class="odbiorca">');
         odbiorcyPelnaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].Status == "1" ?
-            '<img src="../Images/mailappt.png" class="ikonaStatusu" title="Wiadomość odebrana" />' : 
-            '<img src="../Images/msn_newmsg.png" class="ikonaStatusu" title="Oczekiwanie na potwierdzenie odebrania wiadomości"/>');
+            '<img src="../Images/mailappt.png" class="ikonaStatusu" title="WiadomoĹ›Ä‡ odebrana" />' : 
+            '<img src="../Images/msn_newmsg.png" class="ikonaStatusu" title="Oczekiwanie na potwierdzenie odebrania wiadomoĹ›ci"/>');
         if (i == iloscWyswietlanychOdbiorcow - 1)
             odbiorcyPelnaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].NazwaOdbiorcy + '</div> ');
         else
@@ -91,15 +91,15 @@ function pobranoWiadomosc(result) // Funkcja zmieniona, dziala ze skryptem oraz 
         {
             odbiorcySkroconaLista.push('<div class="odbiorca">');
             odbiorcySkroconaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].Status == "1" ?
-                '<img src="../Images/mailappt.png" class="ikonaStatusu" title="Wiadomość odebrana" />' :
-                '<img src="../Images/msn_newmsg.png" class="ikonaStatusu" title="Oczekiwanie na potwierdzenie odebrania wiadomości" />');
+                '<img src="../Images/mailappt.png" class="ikonaStatusu" title="WiadomoĹ›Ä‡ odebrana" />' :
+                '<img src="../Images/msn_newmsg.png" class="ikonaStatusu" title="Oczekiwanie na potwierdzenie odebrania wiadomoĹ›ci" />');
             odbiorcySkroconaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].NazwaOdbiorcy + ',</div> ');
         }
     }
 
     if (iloscWyswietlanychOdbiorcow > wielkoscSkroconejListyOdbiorcow) 
     {
-        odbiorcy = odbiorcySkroconaLista.join('') + '<div class="odbiorca">...</div><div id="wiecejOdbiorcow" onclick="pokazWiecej()">[Rozwiń]</div>';
+        odbiorcy = odbiorcySkroconaLista.join('') + '<div class="odbiorca">...</div><div id="wiecejOdbiorcow" onclick="pokazWiecej()">[RozwiĹ„]</div>';
         trybWyswietlaniaOdbiorcow = 0;
     }
     else 
@@ -112,7 +112,7 @@ function pobranoWiadomosc(result) // Funkcja zmieniona, dziala ze skryptem oraz 
 
     if (result.d.Wiadomosc.ListaZal.length > 0) {
         temp.push('<div>');
-        temp.push('<div class="nazwaAtrybutu" style="float: left;">Załączniki:</div>');
+        temp.push('<div class="nazwaAtrybutu" style="float: left;">ZaĹ‚Ä…czniki:</div>');
         var address = window.location.pathname.substring(0, window.location.pathname.indexOf("mod_"));
 
         for (var nZal = 0; nZal < result.d.Wiadomosc.ListaZal.length; nZal++) {

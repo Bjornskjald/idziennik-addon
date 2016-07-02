@@ -15,7 +15,7 @@ function otworzOknoZKontaktami() // Ponowne zdefiniowanie funkcji tak zeby pytal
     //'<div style="height:100%; overflow-y:auto;">'+
 
     '<p style="text-align:center">' +
-    '<div style="text-align:center; width:100%; margin-bottom:8px;">Wska¿ adresatów wiadomoœci</div>' +
+    '<div style="text-align:center; width:100%; margin-bottom:8px;">Wskaz adresatow wiadomosci</div>' +
     '<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:10px; border:1px solid #A6C9E2; padding:3px;" onclick="$(\'.classKontaktCheckboxTeach\').attr(\'checked\',\'checked\')">(+) zaznacz naucz.</span>' +
     '<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:10px; border:1px solid #A6C9E2; padding:3px;" onclick="$(\'.classKontaktCheckboxTeach\').removeAttr(\'checked\')">(-) odznacz naucz.</span>' +
     '<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:10px; border:1px solid #A6C9E2; padding:3px;" onclick="$(\'.classKontaktCheckboxPar\').attr(\'checked\',\'checked\')">(+) zaznacz rodz.</span>' +

@@ -1,3 +1,10 @@
+// ==UserScript==
+// @name        iDziennik Extended
+// @namespace   https://github.com/jasrosa/idziennikextended/raw/master/idziennikextended.user.js
+// @include     https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx
+// @version     1.0
+// @grant       none
+// ==/UserScript==
 $('#iListView_table1_ToolBar').html(''); // Usun istniejacy panel
 iListView_utworzPanel(cTableName); // Dodaj nowy panel z przyciskiem "Nowy"
 function otworzOknoZKontaktami() // Ponowne zdefiniowanie funkcji tak zeby pytala o wszystkich nauczycieli i rodzicow

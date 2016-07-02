@@ -7,8 +7,22 @@
 // @grant       none
 // @run-at		document-idle
 // ==/UserScript==
+console.log('Skrypt zaladowany');
+
 $('#iListView_table1_ToolBar').html(''); // Usun istniejacy panel
+console.log('Panel usuniety');
+
 iListView_utworzPanel(cTableName); // Dodaj nowy panel z przyciskiem "Nowy"
+console.log('Nowy panel utworzony');
+
+function pobierzWiadomosc(){ // Funkcja odczytujaca pole z ID wiadomosci
+	var messid = $('#messageID').val();
+	console.log('Pobieram wiadomosc o ID ' + messid);
+	iListView_clearSelected("table1");
+	iListView_rowSelect("table1", 2, 0, messid);
+}
+console.log('Funkcja odczytywania ID wiadomosci zdefiniowana');
+
 function iListView_newRecord(iListView_idTable, isReply, subject){
 	if (iListView_idTable == cTableName) {
 		listaOdbiorcow = new Array();
@@ -20,15 +34,19 @@ function iListView_newRecord(iListView_idTable, isReply, subject){
 			disabledInput = '';
 			subject = '';
 		};
+		console.log('Otwieram okno nowej wiadomosci');
 		Komunikator.Create(otworzOknoZKontaktamiFull, 0);
 		$("#dialog").dialog('open');
 		Komunikator.SetTitle(subject);
 		$(".ui-dialog:visible").css('background', 'url("../Images/DialogBackground.jpg") no-repeat right top #fff');
 	};
 };
+console.log('Funkcja tworzenia wiadomosci ponownie zdefiniowana');
+
 function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o wszystkich nauczycieli i rodzicow
 // TODO: Sprawdzic jak wyglada zakladka z uczniami
 {
+	console.log('Otwieram okno z odbiorcami');
 	$("#dialog_kontakt").html(
 	//'<div style="height:100%; overflow-y:auto;">'+	
 	'<p style="text-align:center">' +
@@ -65,8 +83,11 @@ function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o wszystki
 		error: bladPobrano
 	});
 };
+console.log('Funkcja otwierania okna z kontaktami zdefiniowana');
+
 function pobranoWiadomosc(result) // Funkcja zmieniona, dziala ze skryptem oraz z domyslna funkcja
 {
+	console.log('Przetwarzam pobrana wiadomosc...');
     var wielkoscSkroconejListyOdbiorcow = 3; 
 
     if (result.d.czyJestWiecej == false) {
@@ -148,8 +169,9 @@ function pobranoWiadomosc(result) // Funkcja zmieniona, dziala ze skryptem oraz 
     tempDialog.push($("<div/>").text(result.d.Wiadomosc.Tytul).html());
     tempDialog.push('</u></b><br/><br/></p>');
     tempDialog.push(result.d.Wiadomosc.Text);
-
-    $("#dialogOdczyt").html(tempDialog.join(''));
+	var htmlDialog = tempDialog.join('');
+	
+    $("#dialogOdczyt").html(htmlDialog);
 
     for (var nZal = 0; nZal < result.d.Wiadomosc.ListaZal.length; nZal++) {
         document.getElementById('zal_' + result.d.Wiadomosc.ListaZal[nZal].Id).onclick = OnZalacznikClick;
@@ -160,12 +182,9 @@ function pobranoWiadomosc(result) // Funkcja zmieniona, dziala ze skryptem oraz 
     $("#dialogOdczyt").dialog('open');
     refreshGrid(cTableName);
 }
+console.log('Funkcja przetwarzania pobranej wiadomosci ponownie zdefiniowana');
 
-function pobierzWiadomosc(){ // Funkcja odczytujaca pole z ID wiadomosci
-	var messid = $('#messageID').val();
-	iListView_clearSelected("table1");
-	iListView_rowSelect("table1", 2, 0, messid);
-	
-}
 var messageBrowser = "<td id='iListView_table1_divListViewToolbar_input'><input type='text' placeholder='Wpisz ID' id='messageID'></td><td id='iListView_table1_divListViewToolbar_submit' onclick='pobierzWiadomosc();' class='iListView_tabPanelButtonEnabled'>OK</td>";
 $('#iListView_table1_ToolBarRow').append(messageBrowser);
+console.log('Panel pobierania wiadomosci dodany');
+console.log('Zakonczono ladowanie skryptu');

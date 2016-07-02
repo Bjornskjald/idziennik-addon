@@ -3,8 +3,9 @@
 // @namespace   https://github.com/jasrosa/idziennikextended/raw/master/idziennikextended.user.js
 // @include     https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx
 // @downloadURL https://github.com/jasrosa/idziennikextended/raw/master/idziennikextended.user.js
-// @version     1.0
+// @version     1.0.1
 // @grant       none
+// @run-at		document-idle
 // ==/UserScript==
 $('#iListView_table1_ToolBar').html(''); // Usun istniejacy panel
 iListView_utworzPanel(cTableName); // Dodaj nowy panel z przyciskiem "Nowy"

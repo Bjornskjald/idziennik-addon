@@ -7,25 +7,20 @@
 // @grant       none
 // @run-at		document-idle
 // ==/UserScript==
+// Jezeli chcesz wysylac wiadomosci do uczniow, usun ukosniki z ponizszej linii
+//var uczniowie = true;
 console.log('Skrypt zaladowany');
-var wynik;
 $('#iListView_table1_ToolBar').html(''); // Usun istniejacy panel
 console.log('Panel usuniety');
 
 iListView_utworzPanel(cTableName); // Dodaj nowy panel z przyciskiem "Nowy"
 console.log('Nowy panel utworzony');
 
-function iListView_newRecord(iListView_idTable, isReply, subject){
+function iListView_newRecord(dz_tableID, isReply, subject){
 	if (iListView_idTable == cTableName) {
 		listaOdbiorcow = new Array();
-		if (isReply) {
-			onClickEnabled = '';
-			disabledInput = 'disabled=disabled'
-		} else {
-			onClickEnabled = ' onclick = "otworzOknoZKontaktamiFull()" ';
-			disabledInput = '';
-			subject = '';
-		};
+		onClickEnabled = ' onclick = "otworzOknoZKontaktamiFull()" ';
+		disabledInput = '';
 		console.log('Otwieram okno nowej wiadomosci');
 		Komunikator.Create(otworzOknoZKontaktamiFull, 0);
 		$("#dialog").dialog('open');
@@ -35,8 +30,7 @@ function iListView_newRecord(iListView_idTable, isReply, subject){
 };
 console.log('Funkcja tworzenia wiadomosci ponownie zdefiniowana');
 
-function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o wszystkich nauczycieli i rodzicow
-// TODO: Sprawdzic jak wyglada zakladka z uczniami
+function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o uczniow i rodzicow
 {
 	console.log('Otwieram okno z odbiorcami');
 	$("#dialog_kontakt").html(
@@ -70,10 +64,10 @@ function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o wszystki
 		dataType: "json",
 		success: function (result)
 		{
-			result.d.ListK_Pracownicy = result.d.ListK_Uczniow;pobranoDaneotworzOknoZKontaktami(result);
+			if(uczniowie){result.d.ListK_Pracownicy = result.d.ListK_Uczniow;}pobranoDaneotworzOknoZKontaktami(result);
 		},
 		error: bladPobrano
 	});
-};//.replace("ListK_Pracownicy", "ListK_PPP").replace("ListK_Uczniow", "ListK_Pracownicy")
+};
 console.log('Funkcja otwierania okna z kontaktami zdefiniowana');
 console.log('Zakonczono ladowanie skryptu');

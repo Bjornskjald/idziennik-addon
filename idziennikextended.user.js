@@ -17,7 +17,7 @@ iListView_utworzPanel(cTableName); // Dodaj nowy panel z przyciskiem "Nowy"
 console.log('Nowy panel utworzony');
 
 function iListView_newRecord(dz_tableID, isReply, subject){
-	if (iListView_idTable == cTableName) {
+	if (dz_TableID == cTableName) {
 		listaOdbiorcow = new Array();
 		onClickEnabled = ' onclick = "otworzOknoZKontaktamiFull()" ';
 		disabledInput = '';

@@ -44,7 +44,7 @@ function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o uczniow 
 	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxStu\').attr(\'checked\',\'checked\')">(+) zaznacz ucz.</span>' +
 	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxStu\').removeAttr(\'checked\')">(-) odznacz ucz.</span>' +
 	'</p><br/><br/>' +
-	'<div id="accordionUzytkownicy"> ' +
+	'<div id="accordionUzytkownicy" style="margin-top:20px"> ' +
 	'</div>');
 	$("#accordionUzytkownicy").append(
 		'<ul> \

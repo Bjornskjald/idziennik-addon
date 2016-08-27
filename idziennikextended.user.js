@@ -7,8 +7,6 @@
 // @grant       none
 // @run-at		document-idle
 // ==/UserScript==
-// Jezeli chcesz wysylac wiadomosci do uczniow, zamien "false" na "true" w ponizszej linii
-var uczniowie = false;
 console.log('Ladowanie skryptu...');
 $('#iListView_table1_ToolBar').html(''); // Usun istniejacy panel
 console.log('Panel usuniety');
@@ -22,10 +20,11 @@ function iListView_newRecord(dz_tableID, isReply, subject){
 		onClickEnabled = ' onclick = "otworzOknoZKontaktamiFull()" ';
 		disabledInput = '';
 		console.log('Otwieram okno nowej wiadomosci');
-		Komunikator.Create(otworzOknoZKontaktamiFull, 0);
+		Komunikator.Create(otworzOknoZKontaktamiFull, 1);
 		$("#dialog").dialog('open');
 		Komunikator.SetTitle(subject);
 		$(".ui-dialog:visible").css('background', 'url("../Images/DialogBackground.jpg") no-repeat right top #fff');
+		$(".ui-dialog").css({"width": "800px"})
 	};
 };
 console.log('Funkcja tworzenia wiadomosci ponownie zdefiniowana');
@@ -33,8 +32,7 @@ console.log('Funkcja tworzenia wiadomosci ponownie zdefiniowana');
 function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o uczniow i rodzicow
 {
 	console.log('Otwieram okno z odbiorcami');
-	$("#dialog_kontakt").html(
-	//'<div style="height:100%; overflow-y:auto;">'+	
+	$("#dialog_kontakt").html(	
 	'<p style="text-align:center">' +
 	'<div style="text-align:center; width:100%; margin-bottom:8px;">Wskaz adresatow wiadomosci</div>' +
 	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxTeach\').attr(\'checked\',\'checked\')">(+) zaznacz naucz.</span>' +
@@ -80,11 +78,14 @@ function pobranoDaneotworzOknoZKontaktami(result)
         var spanPrac = document.getElementById('spanPracownicy');
         var spanRodzice = document.getElementById('spanRodzice');
         var spanUczniowie = document.getElementById('spanUczniowie')
-        var temp = [];
-        $("#dialog_kontakt").dialog('open');
 
         otrzymanaLista.Pracownicy = result.d.ListK_Pracownicy;
-        //todo wstawic tu jednostki
+        otrzymanaLista.Rodzice = result.d.ListK_Opiekunowie;
+        otrzymanaLista.Uczniowie = result.d.ListK_Uczniow; // Dodano liste uczniow i dodatkowa zakladke
+	otrzymanaLista.Klasy = result.d.ListK_Klasy; // Dodano liste klas do wyswietlania informacji o uczniach i rodzicach
+
+        var temp = [];
+        $("#dialog_kontakt").dialog('open');
         spanPrac.innerHTML = '';
 
         for (var i = 0; i < otrzymanaLista.Pracownicy.length; i++) {
@@ -92,14 +93,15 @@ function pobranoDaneotworzOknoZKontaktami(result)
             temp.push('<input id="divKontaktCheckbox_' + otrzymanaLista.Pracownicy[i].Id + '" type="checkbox" class="classKontaktCheckboxTeach" style="float: right;" />');
             temp.push('<label for="divKontaktCheckbox_' + otrzymanaLista.Pracownicy[i].Id + '" style="cursor:pointer; width: 90%;" >');
             temp.push(otrzymanaLista.Pracownicy[i].ImieNazwisko);
+	    if(otrzymanaLista.Pracownicy[i].CzyJestNauczycielem)temp.push(", nauczyciel"); // sprawdzanie czy osoba jest nauczycielem
+	    if(otrzymanaLista.Pracownicy[i].CzyJestWychowawca)temp.push(", wychowawca"); // sprawdzanie czy osoba jest wychowawca
+	    temp.push(", typ: " + otrzymanaLista.Pracownicy[i].ListaTypow[0]) // pokazuje typ konta
             temp.push('</label>');
             temp.push('</div>');
         }
 
         spanPrac.innerHTML = temp.join('');
 
-        otrzymanaLista.Rodzice = result.d.ListK_Opiekunowie;
-        //todo wstawic tu jednostki
         spanRodzice.innerHTML = '';
         temp = [];
         for (var i = 0; i < otrzymanaLista.Rodzice.length; i++) 
@@ -108,32 +110,43 @@ function pobranoDaneotworzOknoZKontaktami(result)
             temp.push('<input id="divKontaktCheckbox_' + otrzymanaLista.Rodzice[i].Id + '" type="checkbox" class="classKontaktCheckboxPar" style="float: right;"/>');
             temp.push('<label for="divKontaktCheckbox_' + otrzymanaLista.Rodzice[i].Id + '" style="cursor:pointer; width: 90%;">');
             temp.push(otrzymanaLista.Rodzice[i].ImieNazwisko);
+	    temp.push(", klasa: " + otrzymanaLista.Klasy.find(function(elem){var obj = otrzymanaLista.Rodzice[i].IdKlasa === elem.IdKlasa; return obj}).Klasa); // znajduje ID klasy w tabeli klas
             temp.push('</label>');
             temp.push('</div>');
         }
-
+	
         spanRodzice.innerHTML = temp.join('');
         
-        otrzymanaLista.Uczniowie = result.d.ListK_Uczniow;
-        //todo wstawic tu jednostki
         spanUczniowie.innerHTML = '';
         temp = [];
         for (var i = 0; i < otrzymanaLista.Uczniowie.length; i++) 
         {
-            temp.push('<div id="divKontaktMain_' + otrzymanaLista.Uczniowie[i].Id + '" class="classKontakt">');
+            console.log(i);
+	    temp.push('<div id="divKontaktMain_' + otrzymanaLista.Uczniowie[i].Id + '" class="classKontakt">');
             temp.push('<input id="divKontaktCheckbox_' + otrzymanaLista.Uczniowie[i].Id + '" type="checkbox" class="classKontaktCheckboxStu" style="float: right;"/>');
             temp.push('<label for="divKontaktCheckbox_' + otrzymanaLista.Uczniowie[i].Id + '" style="cursor:pointer; width: 90%;">');
             temp.push(otrzymanaLista.Uczniowie[i].ImieNazwisko);
+            if(otrzymanaLista.Uczniowie[i].Skreslony)temp.push(", skreslony"); // sprawdzanie czy uczen jest skreslony
+	    temp.push(", klasa: " + otrzymanaLista.Klasy.find(function(elem){var obj = otrzymanaLista.Uczniowie[i].IdKlasa === elem.IdKlasa; return obj}).Klasa); // znajduje ID klasy w tabeli klas
+	    var matka = otrzymanaLista.Rodzice.find(function(el){return otrzymanaLista.Uczniowie[i].Matka === el.Id;}) // sprawdza ID matki ucznia
+	    if(matka)
+	    {
+	    temp.push(", matka: ");
+	    temp.push(matka.ImieNazwisko);
+	    }
+	    var ojciec = otrzymanaLista.Rodzice.find(function(el){return otrzymanaLista.Uczniowie[i].Ojciec === el.Id;}) // sprawdza ID ojca ucznia
+	    if(ojciec)
+	    {
+	    temp.push(", ojciec: ");
+	    temp.push(ojciec.ImieNazwisko);
+	    }
             temp.push('</label>');
             temp.push('</div>');
         }
 
         spanUczniowie.innerHTML = temp.join('');
 
-        $("#accordionUzytkownicy").tabs(); // accordion({ clearStyle: true, autoHeight: false, Header: 'h3' });
-
-        //gdy zalogowany jest uczen, schowanie zakladki Rodzice 
-        //rodzice nie dodawani na poziomie WS
+        $("#accordionUzytkownicy").tabs();
 
         for (var nOdb = 0; nOdb < listaOdbiorcow.length; nOdb++) {
             document.getElementById('divKontaktCheckbox_' + listaOdbiorcow[nOdb]).checked = true;

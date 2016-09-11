@@ -2,7 +2,7 @@
 
 ### Co to jest?
 
-iDziennik Extended jest dodatkiem rozszerzającym funkcjonalność iDziennika.
+iDziennik Extended jest skryptem rozszerzającym funkcjonalność komunikatora (a niedługo i strony obecności) iDziennika.
 
 ### Jak to działa?
 

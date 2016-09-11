@@ -7,65 +7,53 @@
 // @grant       none
 // @run-at		document-idle
 // ==/UserScript==
-console.log('Skrypt zaladowany');
-
+console.log('Ladowanie skryptu...');
 $('#iListView_table1_ToolBar').html(''); // Usun istniejacy panel
 console.log('Panel usuniety');
 
 iListView_utworzPanel(cTableName); // Dodaj nowy panel z przyciskiem "Nowy"
 console.log('Nowy panel utworzony');
 
-function pobierzWiadomosc(){ // Funkcja odczytujaca pole z ID wiadomosci
-	var messid = $('#messageID').val();
-	console.log('Pobieram wiadomosc o ID ' + messid);
-	iListView_clearSelected("table1");
-	iListView_rowSelect("table1", 2, 0, messid);
-}
-console.log('Funkcja odczytywania ID wiadomosci zdefiniowana');
-
-function iListView_newRecord(iListView_idTable, isReply, subject){
-	if (iListView_idTable == cTableName) {
+function iListView_newRecord(dz_tableID, isReply, subject){
+	if (dz_tableID == cTableName) {
 		listaOdbiorcow = new Array();
-		if (isReply) {
-			onClickEnabled = '';
-			disabledInput = 'disabled=disabled'
-		} else {
-			onClickEnabled = ' onclick = "otworzOknoZKontaktamiFull()" ';
-			disabledInput = '';
-			subject = '';
-		};
+		onClickEnabled = ' onclick = "otworzOknoZKontaktamiFull()" ';
+		disabledInput = '';
 		console.log('Otwieram okno nowej wiadomosci');
-		Komunikator.Create(otworzOknoZKontaktamiFull, 0);
+		Komunikator.Create(otworzOknoZKontaktamiFull, 1);
 		$("#dialog").dialog('open');
 		Komunikator.SetTitle(subject);
 		$(".ui-dialog:visible").css('background', 'url("../Images/DialogBackground.jpg") no-repeat right top #fff');
+		$(".ui-dialog").css({"width": "800px"})
 	};
 };
 console.log('Funkcja tworzenia wiadomosci ponownie zdefiniowana');
 
-function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o wszystkich nauczycieli i rodzicow
-// TODO: Sprawdzic jak wyglada zakladka z uczniami
+function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o uczniow i rodzicow
 {
 	console.log('Otwieram okno z odbiorcami');
-	$("#dialog_kontakt").html(
-	//'<div style="height:100%; overflow-y:auto;">'+	
+	$("#dialog_kontakt").html(	
 	'<p style="text-align:center">' +
 	'<div style="text-align:center; width:100%; margin-bottom:8px;">Wskaz adresatow wiadomosci</div>' +
-	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:10px; border:1px solid #A6C9E2; padding:3px;" onclick="$(\'.classKontaktCheckboxTeach\').attr(\'checked\',\'checked\')">(+) zaznacz naucz.</span>' +
-	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:10px; border:1px solid #A6C9E2; padding:3px;" onclick="$(\'.classKontaktCheckboxTeach\').removeAttr(\'checked\')">(-) odznacz naucz.</span>' +
-	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:10px; border:1px solid #A6C9E2; padding:3px;" onclick="$(\'.classKontaktCheckboxPar\').attr(\'checked\',\'checked\')">(+) zaznacz rodz.</span>' +
-	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:10px; border:1px solid #A6C9E2; padding:3px;" onclick="$(\'.classKontaktCheckboxPar\').removeAttr(\'checked\')">(-) odznacz rodz.</span>' +
+	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxTeach\').attr(\'checked\',\'checked\')">(+) zaznacz naucz.</span>' +
+	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxTeach\').removeAttr(\'checked\')">(-) odznacz naucz.</span>' +
+	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxPar\').attr(\'checked\',\'checked\')">(+) zaznacz rodz.</span>' +
+	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxPar\').removeAttr(\'checked\')">(-) odznacz rodz.</span>' +
+	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxStu\').attr(\'checked\',\'checked\')">(+) zaznacz ucz.</span>' +
+	'<span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxStu\').removeAttr(\'checked\')">(-) odznacz ucz.</span>' +
 	'</p><br/><br/>' +
-	'<div id="accordionUzytkownicy"> ' +
+	'<div id="accordionUzytkownicy" style="margin-top:20px"> ' +
 	'</div>');
 	$("#accordionUzytkownicy").append(
 		'<ul> \
 	    <li><a href="#spanPracownicy">Nauczyciele</a></li> \
 	    <li><a href="#spanRodzice">Rodzice</a></li> \
+    	    <li><a href="#spanUczniowie">Uczniowie</a></li> \
 	    </ul> \
 	    \
 	    <div id="spanPracownicy"></div> \
 	    <div id="spanRodzice"></div> \
+	    <div id="spanUczniowie"></div> \
 	    ');
 	$('.buttonsSelect').button();
 	listaTypow = new Array();
@@ -84,107 +72,88 @@ function otworzOknoZKontaktamiFull() // Funkcja zmieniona zeby pytala o wszystki
 	});
 };
 console.log('Funkcja otwierania okna z kontaktami zdefiniowana');
-
-function pobranoWiadomosc(result) // Funkcja zmieniona, dziala ze skryptem oraz z domyslna funkcja
+function pobranoDaneotworzOknoZKontaktami(result)
 {
-	console.log('Przetwarzam pobrana wiadomosc...');
-    var wielkoscSkroconejListyOdbiorcow = 3; 
+    if (result.d.Bledy.CzyJestBlad == false) {
+        var spanPrac = document.getElementById('spanPracownicy');
+        var spanRodzice = document.getElementById('spanRodzice');
+        var spanUczniowie = document.getElementById('spanUczniowie')
 
-    if (result.d.czyJestWiecej == false) {
-        $("img[id*=info_new]").hide();
-    }
-    var odbiorcy;
-    odbiorcyPelnaLista = [];
-    odbiorcySkroconaLista = [];
-    var iloscWyswietlanychOdbiorcow = result.d.Wiadomosc.ListaOdbiorcow.length;
+        otrzymanaLista.Pracownicy = result.d.ListK_Pracownicy;
+        otrzymanaLista.Rodzice = result.d.ListK_Opiekunowie;
+        otrzymanaLista.Uczniowie = result.d.ListK_Uczniow; // Dodano liste uczniow i dodatkowa zakladke
+	otrzymanaLista.Klasy = result.d.ListK_Klasy; // Dodano liste klas do wyswietlania informacji o uczniach i rodzicach
 
-    for (var i = 0; i < iloscWyswietlanychOdbiorcow; i++) 
-    {
-        odbiorcyPelnaLista.push('<div class="odbiorca">');
-        odbiorcyPelnaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].Status == "1" ?
-            '<img src="../Images/mailappt.png" class="ikonaStatusu" title="WiadomoĹ›Ä‡ odebrana" />' : 
-            '<img src="../Images/msn_newmsg.png" class="ikonaStatusu" title="Oczekiwanie na potwierdzenie odebrania wiadomoĹ›ci"/>');
-        if (i == iloscWyswietlanychOdbiorcow - 1)
-            odbiorcyPelnaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].NazwaOdbiorcy + '</div> ');
-        else
-            odbiorcyPelnaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].NazwaOdbiorcy + ',</div> ');
+        var temp = [];
+        $("#dialog_kontakt").dialog('open');
+        spanPrac.innerHTML = '';
 
-        if (i < wielkoscSkroconejListyOdbiorcow) 
-        {
-            odbiorcySkroconaLista.push('<div class="odbiorca">');
-            odbiorcySkroconaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].Status == "1" ?
-                '<img src="../Images/mailappt.png" class="ikonaStatusu" title="WiadomoĹ›Ä‡ odebrana" />' :
-                '<img src="../Images/msn_newmsg.png" class="ikonaStatusu" title="Oczekiwanie na potwierdzenie odebrania wiadomoĹ›ci" />');
-            odbiorcySkroconaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].NazwaOdbiorcy + ',</div> ');
-        }
-    }
-
-    if (iloscWyswietlanychOdbiorcow > wielkoscSkroconejListyOdbiorcow) 
-    {
-        odbiorcy = odbiorcySkroconaLista.join('') + '<div class="odbiorca">...</div><div id="wiecejOdbiorcow" onclick="pokazWiecej()">[RozwiĹ„]</div>';
-        trybWyswietlaniaOdbiorcow = 0;
-    }
-    else 
-    {
-        odbiorcy = odbiorcyPelnaLista.join('');
-        trybWyswietlaniaOdbiorcow = 1;
-    }
-
-    var temp = [];
-
-    if (result.d.Wiadomosc.ListaZal.length > 0) {
-        temp.push('<div>');
-        temp.push('<div class="nazwaAtrybutu" style="float: left;">ZaĹ‚Ä…czniki:</div>');
-        var address = window.location.pathname.substring(0, window.location.pathname.indexOf("mod_"));
-
-        for (var nZal = 0; nZal < result.d.Wiadomosc.ListaZal.length; nZal++) {
-            temp.push('<div style="float: left;">');
-            temp.push('<form id="formDownload_' + result.d.Wiadomosc.ListaZal[nZal].Id + '" method="POST" target="iframeResponseOdczyt" action="' + address + 'mod_komunikator/Download.ashx">');
-            temp.push('<input name="id" type="hidden" style="display: none;" value="' + result.d.Wiadomosc._recordId + '" />');
-            temp.push('<input name="fileName" type="hidden" style="display: none;" value="' + result.d.Wiadomosc.ListaZal[nZal].Nazwa + '" />');
-            temp.push('<a id="zal_' + result.d.Wiadomosc.ListaZal[nZal].Id + '" class="attachLink">' + result.d.Wiadomosc.ListaZal[nZal].Nazwa + '</a>,');
-            temp.push('</form>');
+        for (var i = 0; i < otrzymanaLista.Pracownicy.length; i++) {
+            temp.push('<div id="divKontaktMain_' + otrzymanaLista.Pracownicy[i].Id + '" class="classKontakt">');
+            temp.push('<input id="divKontaktCheckbox_' + otrzymanaLista.Pracownicy[i].Id + '" type="checkbox" class="classKontaktCheckboxTeach" style="float: right;" />');
+            temp.push('<label for="divKontaktCheckbox_' + otrzymanaLista.Pracownicy[i].Id + '" style="cursor:pointer; width: 90%;" >');
+            temp.push(otrzymanaLista.Pracownicy[i].ImieNazwisko);
+	    if(otrzymanaLista.Pracownicy[i].CzyJestNauczycielem)temp.push(", nauczyciel"); // sprawdzanie czy osoba jest nauczycielem
+	    if(otrzymanaLista.Pracownicy[i].CzyJestWychowawca)temp.push(", wychowawca"); // sprawdzanie czy osoba jest wychowawca
+	    temp.push(", typ: " + otrzymanaLista.Pracownicy[i].ListaTypow[0]) // pokazuje typ konta
+            temp.push('</label>');
             temp.push('</div>');
         }
-        temp.push('</div>');
-    }
 
-    temp.push('<iframe id="iframeResponseOdczyt" name="iframeResponseOdczyt" style="display: none;"></iframe>');
+        spanPrac.innerHTML = temp.join('');
 
-    var tempDialog = [];
-    tempDialog.push('<div class="wiersz1">');
-    tempDialog.push('<div class="lewyNagl">');
-    tempDialog.push('<div class="nazwaAtrybutu">Nadawca: </div>');
-    tempDialog.push('<div class="wartoscAtrybutu">' + result.d.Wiadomosc.Nadawca + '</div>');
-    tempDialog.push('</div>');
-    tempDialog.push('<div class="prawyNagl">');
-    tempDialog.push('<div class="nazwaAtrybutu">Data nadania: </div>');
-    tempDialog.push('<div class="wartoscAtrybutu">' + result.d.Wiadomosc.DataNadania + '</div>');
-    tempDialog.push('</div>');
-    tempDialog.push('</div>');
-    tempDialog.push('<div class="nazwaAtrybutu">Odbiorcy: </div>');
-    tempDialog.push('<div id="odbiorcy">' + odbiorcy + '</div>');
-    tempDialog.push(temp.join(''));
-    tempDialog.push('<p style="text-align:justify; white-space:pre-wrap;">Temat: <b><u>');
-    tempDialog.push($("<div/>").text(result.d.Wiadomosc.Tytul).html());
-    tempDialog.push('</u></b><br/><br/></p>');
-    tempDialog.push(result.d.Wiadomosc.Text);
-	var htmlDialog = tempDialog.join('');
+        spanRodzice.innerHTML = '';
+        temp = [];
+        for (var i = 0; i < otrzymanaLista.Rodzice.length; i++) 
+        {
+            temp.push('<div id="divKontaktMain_' + otrzymanaLista.Rodzice[i].Id + '" class="classKontakt">');
+            temp.push('<input id="divKontaktCheckbox_' + otrzymanaLista.Rodzice[i].Id + '" type="checkbox" class="classKontaktCheckboxPar" style="float: right;"/>');
+            temp.push('<label for="divKontaktCheckbox_' + otrzymanaLista.Rodzice[i].Id + '" style="cursor:pointer; width: 90%;">');
+            temp.push(otrzymanaLista.Rodzice[i].ImieNazwisko);
+	    temp.push(", klasa: " + otrzymanaLista.Klasy.find(function(elem){var obj = otrzymanaLista.Rodzice[i].IdKlasa === elem.IdKlasa; return obj}).Klasa); // znajduje ID klasy w tabeli klas
+            temp.push('</label>');
+            temp.push('</div>');
+        }
 	
-    $("#dialogOdczyt").html(htmlDialog);
+        spanRodzice.innerHTML = temp.join('');
+        
+        spanUczniowie.innerHTML = '';
+        temp = [];
+        for (var i = 0; i < otrzymanaLista.Uczniowie.length; i++) 
+        {
+            console.log(i);
+	    temp.push('<div id="divKontaktMain_' + otrzymanaLista.Uczniowie[i].Id + '" class="classKontakt">');
+            temp.push('<input id="divKontaktCheckbox_' + otrzymanaLista.Uczniowie[i].Id + '" type="checkbox" class="classKontaktCheckboxStu" style="float: right;"/>');
+            temp.push('<label for="divKontaktCheckbox_' + otrzymanaLista.Uczniowie[i].Id + '" style="cursor:pointer; width: 90%;">');
+            temp.push(otrzymanaLista.Uczniowie[i].ImieNazwisko);
+            if(otrzymanaLista.Uczniowie[i].Skreslony)temp.push(", skreslony"); // sprawdzanie czy uczen jest skreslony
+	    temp.push(", klasa: " + otrzymanaLista.Klasy.find(function(elem){var obj = otrzymanaLista.Uczniowie[i].IdKlasa === elem.IdKlasa; return obj}).Klasa); // znajduje ID klasy w tabeli klas
+	    var matka = otrzymanaLista.Rodzice.find(function(el){return otrzymanaLista.Uczniowie[i].Matka === el.Id;}) // sprawdza ID matki ucznia
+	    if(matka)
+	    {
+	    temp.push(", matka: ");
+	    temp.push(matka.ImieNazwisko);
+	    }
+	    var ojciec = otrzymanaLista.Rodzice.find(function(el){return otrzymanaLista.Uczniowie[i].Ojciec === el.Id;}) // sprawdza ID ojca ucznia
+	    if(ojciec)
+	    {
+	    temp.push(", ojciec: ");
+	    temp.push(ojciec.ImieNazwisko);
+	    }
+            temp.push('</label>');
+            temp.push('</div>');
+        }
 
-    for (var nZal = 0; nZal < result.d.Wiadomosc.ListaZal.length; nZal++) {
-        document.getElementById('zal_' + result.d.Wiadomosc.ListaZal[nZal].Id).onclick = OnZalacznikClick;
+        spanUczniowie.innerHTML = temp.join('');
+
+        $("#accordionUzytkownicy").tabs();
+
+        for (var nOdb = 0; nOdb < listaOdbiorcow.length; nOdb++) {
+            document.getElementById('divKontaktCheckbox_' + listaOdbiorcow[nOdb]).checked = true;
+        }
     }
+    else jAlert('System zwrócił błąd o następującej treści:<br/>"<font color=red>' + result.d.Bledy.ListaBledow[0] + '</font>"');
 
-    document.getElementById('iframeResponseOdczyt').onload = OnIframeResponeOdczytLoadHandler;
-
-    $("#dialogOdczyt").dialog('open');
-    refreshGrid(cTableName);
+    $.uiUnlock();
 }
-console.log('Funkcja przetwarzania pobranej wiadomosci ponownie zdefiniowana');
-
-var messageBrowser = "<td id='iListView_table1_divListViewToolbar_input'><input type='text' placeholder='Wpisz ID' id='messageID'></td><td id='iListView_table1_divListViewToolbar_submit' onclick='pobierzWiadomosc();' class='iListView_tabPanelButtonEnabled'>OK</td>";
-$('#iListView_table1_ToolBarRow').append(messageBrowser);
-console.log('Panel pobierania wiadomosci dodany');
 console.log('Zakonczono ladowanie skryptu');

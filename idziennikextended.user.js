@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name		iDziennik Extended
-// @namespace   https://raw.githubusercontent.com/jasrosa/idziennikextended/master/idziennikextended.user.js
+// @namespace   https://raw.githubusercontent.com/Bjornskjald/idziennikextended/master/idziennikextended.user.js
 // @include     https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx
-// @downloadURL https://raw.githubusercontent.com/jasrosa/idziennikextended/master/idziennikextended.user.js
-// @version     1.0.2
+// @downloadURL https://raw.githubusercontent.com/Bjornskjald/idziennikextended/master/idziennikextended.user.js
+// @version     1.0.3
 // @grant       none
 // @run-at		document-idle
 // ==/UserScript==
@@ -22,6 +22,7 @@ function iListView_newRecord(dz_tableID, isReply){
 		$(".ui-dialog").css({"width": "800px"})
 	};
 };
+/* Okazuje się, że nie działa.
 function pobierzPracownikowJednostki(idjednostki) {
 	$("#dialog_kontakt").html('<p style="text-align:center"><div style="text-align:center; width:100%; margin-bottom:8px;">Wskaz adresatow wiadomosci</div><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxTeach\').attr(\'checked\',\'checked\')">(+) zaznacz naucz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxTeach\').removeAttr(\'checked\')">(-) odznacz naucz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxPar\').attr(\'checked\',\'checked\')">(+) zaznacz rodz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxPar\').removeAttr(\'checked\')">(-) odznacz rodz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxStu\').attr(\'checked\',\'checked\')">(+) zaznacz ucz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxStu\').removeAttr(\'checked\')">(-) odznacz ucz.</span></p><br/><br/><div id="accordionUzytkownicy" style="margin-top:20px"></div>');
 	$("#accordionUzytkownicy").append('<ul><li><a href="#spanPracownicy">Nauczyciele</a></li><li><a href="#spanRodzice">Rodzice</a></li><li><a href="#spanUczniowie">Uczniowie</a></li></ul><div id="spanPracownicy"></div><div id="spanRodzice"></div><div id="spanUczniowie"></div>');
@@ -41,6 +42,7 @@ function pobierzPracownikowJednostki(idjednostki) {
 		error: bladPobrano
 	});
 }
+*/
 function otworzOknoZKontaktamiFull() {// Funkcja zmieniona zeby pytala o uczniow i rodzicow
 	$("#dialog_kontakt").html('<p style="text-align:center"><div style="text-align:center; width:100%; margin-bottom:8px;">Wskaz adresatow wiadomosci</div><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxTeach\').attr(\'checked\',\'checked\')">(+) zaznacz naucz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxTeach\').removeAttr(\'checked\')">(-) odznacz naucz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxPar\').attr(\'checked\',\'checked\')">(+) zaznacz rodz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxPar\').removeAttr(\'checked\')">(-) odznacz rodz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxStu\').attr(\'checked\',\'checked\')">(+) zaznacz ucz.</span><span class="buttonsSelect" style="text-align:center; font-size:85%; float:left; background-color:#F5F8F9; cursor:pointer; margin-left:0px; border:1px solid #A6C9E2; padding:0px;" onclick="$(\'.classKontaktCheckboxStu\').removeAttr(\'checked\')">(-) odznacz ucz.</span></p><br/><br/><div id="accordionUzytkownicy" style="margin-top:20px"></div>');
 	$("#accordionUzytkownicy").append('<ul><li><a href="#spanPracownicy">Nauczyciele</a></li><li><a href="#spanRodzice">Rodzice</a></li><li><a href="#spanUczniowie">Uczniowie</a></li></ul><div id="spanPracownicy"></div><div id="spanRodzice"></div><div id="spanUczniowie"></div>');

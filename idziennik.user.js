@@ -45,6 +45,7 @@ window.insertPeople = lista => {
 }
 
 window.openContacts = result => {
+	listaOdbiorcow = []
 	if (result.d.Bledy.CzyJestBlad) return jAlert('System zwrócił błąd o następującej treści:<br/>"<font color=red>' + result.d.Bledy.ListaBledow[0] + '</font>"')
 	var lista = {
 		Pracownicy: result.d.ListK_Pracownicy,

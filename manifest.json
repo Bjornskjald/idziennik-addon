@@ -4,7 +4,7 @@
     "name": "iDziennik",
     "version": "1.0",
     
-    "description": "Nieznacznie poprawia funkcjonalność iDziennika.",
+    "description": "Dodatek do Firefoxa/Chrome dodający funkcje do iDziennika.",
   
     "icons": {
       "48": "icons/48.png",

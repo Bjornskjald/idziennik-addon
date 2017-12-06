@@ -1,23 +1,29 @@
-# iDziennik Extended
+# iDziennik
 
 ### Co to jest?
 
-iDziennik Extended jest skryptem rozszerzającym funkcjonalność komunikatora (a niedługo i strony obecności) iDziennika.
+Dodatek do Firefoxa/Chrome dodający funkcje do iDziennika.
+Skrypt nie kradnie danych ani haseł, jest legalny i działa bez łączenia się z żadnymi zewnętrznymi serwerami.
 
 ### Jak to działa?
 
-Jest to skrypt JavaScript, można go wkleić w konsolę przeglądarki (PPM, Zbadaj element, Konsola) lub dodać przez rozszerzenie GreaseMonkey lub TamperMonkey.
-Skrypt nie kradnie danych ani haseł, jest legalny i działa bez łączenia się z żadnymi serwerami oprócz iDziennika.
+Jest to skrypt JavaScript, który zamienia kod dziennika na swój.
 
-### Co ten skrypt dodaje?
+### Co to daje?
 
-Aktualnie skrypt rozszerza możliwości komunikatora dodając wysyłanie wiadomości z konta ucznia (jeżeli zostało to zablokowane przez administratora zespołu) do każdej osoby w szkole, pokazywanie informacji o rodzicach i klasie danego ucznia ~~oraz wyświetlenie JAKIEJKOLWIEK wiadomości (nawet nieprzeznaczonej dla nas!!!) poprzez podanie numeru ID~~ (naprawione).
+Aktualnie wtyczka dodaje wysyłanie wiadomości z konta ucznia (jeżeli zostało to zablokowane przez administratora zespołu) do każdej osoby w szkole, pokazywanie informacji o rodzicach i klasie danego ucznia.
 
-### Screeny/zrzuty ekranu
+### Instalacja
 
-Dostępne na oficjalnej stronie dodatku
+#### Na stałe:
+- Wtyczka:
+Pobierz najnowszą wersję wtyczki ze [strony wydań](https://github.com/Bjornskjald/idziennik-addon/releases)
 
-http://idziennik.c0.pl
+- Greasemonkey/Tampermonkey:
+Jeżeli masz rozszerzenie GreaseMonkey lub TamperMonkey, możesz zainstalować skrypt [tutaj](https://github.com/Bjornskjald/idziennik-addon/raw/master/idziennik.user.js).
+
+#### Jednorazowo:
+Skopiuj treść pliku [idziennik.user.js](https://github.com/Bjornskjald/idziennik-addon/blob/master/idziennik.user.js) i wklej w konsolę przeglądarki (PPM, Zbadaj element, Konsola)
 
 #### TODO: 
 

@@ -1,0 +1,27 @@
+{
+  
+    "manifest_version": 2,
+    "name": "iDziennik",
+    "version": "1.0",
+    
+    "description": "Nieznacznie poprawia funkcjonalność iDziennika.",
+  
+    "icons": {
+      "48": "icons/48.png",
+      "96": "icons/96.png"
+    },
+
+    "content_scripts": [{
+      "matches": ["https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx"],
+      "js": ["content.js"]
+    }],
+
+    "web_accessible_resources": [
+      "idziennik.user.js"
+    ],
+
+    "permissions": [
+      "tabs",
+      "https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx"
+    ]
+}

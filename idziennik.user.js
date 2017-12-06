@@ -11,11 +11,11 @@ $('#iListView_table1_ToolBar').html('') // Usun istniejacy panel
 iListView_utworzPanel(cTableName) // Dodaj nowy panel z przyciskiem "Nowy"
 
 window.insertPeople = lista => {
-	var kontakt = (id, type, desc) => `
+	var kontakt = (id, type, name, desc) => `
 		<div id="divKontaktMain_${id}" class="classKontakt">
-			<input id="divKontaktCheckbox_${id}" type="checkbox" class="classKontaktCheckbox${type}" style="float: right;" />
+			<input id="divKontaktCheckbox_${id}" type="checkbox" class="classKontaktCheckbox${type}" style="float: right;" data-id="${id}" data-name="${name}"/>
 			<label for="divKontaktCheckbox_${id}" style="cursor:pointer; width: 90%;" >
-				${desc}
+				${name}${desc}
 			</label>
 		</div>
 	`
@@ -24,11 +24,11 @@ window.insertPeople = lista => {
 		if (pracownik.CzyJestNauczycielem) desc.push('nauczyciel')
 		if (pracownik.CzyJestWychowawca) desc.push('wychowawca')
 		desc.push(pracownik.ListaTypow.join(', '))
-		done(kontakt(pracownik.Id, 'Teach', pracownik.ImieNazwisko + ': ' + desc.join(', ')))
+		done(kontakt(pracownik.Id, 'Teach', pracownik.ImieNazwisko, ': ' + desc.join(', ')))
 	})))
 	.then(e => document.getElementById('spanPracownicy').innerHTML = e.join(''))
 
-	Promise.all(lista.Rodzice.map(rodzic => new Promise(done => done(kontakt(rodzic.Id, 'Par', rodzic.ImieNazwisko + ', klasa: ' + lista.Klasy[rodzic.IdKlasa])))))
+	Promise.all(lista.Rodzice.map(rodzic => new Promise(done => done(kontakt(rodzic.Id, 'Par', rodzic.ImieNazwisko, ', klasa: ' + lista.Klasy[rodzic.IdKlasa])))))
 	.then(e => document.getElementById('spanRodzice').innerHTML = e.join(''))
 
 	Promise.all(lista.Uczniowie.map(uczen => new Promise(done => {
@@ -39,7 +39,7 @@ window.insertPeople = lista => {
 		if (matka) desc.push('matka: ' + matka.ImieNazwisko)
 		if (ojciec) desc.push('ojciec: ' + ojciec.ImieNazwisko)
 		desc.push('klasa: ' + lista.Klasy[uczen.IdKlasa])
-		done(kontakt(uczen.Id, 'Stu', uczen.ImieNazwisko + ', ' + desc.join(', ')))
+		done(kontakt(uczen.Id, 'Stu', uczen.ImieNazwisko, ', ' + desc.join(', ')))
 	})))
 	.then(e => document.getElementById('spanUczniowie').innerHTML = e.join(''))
 }
@@ -107,4 +107,13 @@ window.iListView_newRecord = (tableID, isReply) => {
 	Komunikator.SetTitle('')
 	$(".ui-dialog:visible").css('background', 'url("../Images/DialogBackground.jpg") no-repeat right top #fff')
 	$(".ui-dialog").css({"width": "800px"})
+}
+
+window.zapiszOdbiorcow = () => {
+	var listaNazwisk = []
+	Array.from($("[class^='classKontaktCheckbox']:checked")).forEach(el => {
+		listaOdbiorcow.push(el.dataset.id)
+		listaNazwisk.push(el.dataset.name)
+	})
+	document.querySelector('#nazwiskaOdbiorcow').innerHTML = listaNazwisk.join('; ')
 }

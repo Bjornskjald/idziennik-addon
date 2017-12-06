@@ -10,7 +10,7 @@
 $('#iListView_table1_ToolBar').html('') // Usun istniejacy panel
 iListView_utworzPanel(cTableName) // Dodaj nowy panel z przyciskiem "Nowy"
 
-window.openContacts = (result) => {
+window.openContacts = result => {
 	if (result.d.Bledy.CzyJestBlad) return jAlert('System zwrócił błąd o następującej treści:<br/>"<font color=red>' + result.d.Bledy.ListaBledow[0] + '</font>"')
 	var lista = {
 		Pracownicy: result.d.ListK_Pracownicy,
@@ -75,7 +75,7 @@ window.iListView_newRecord = (tableID, isReply) => {
 	$(".ui-dialog").css({"width": "800px"})
 }
 
-function insertPeople (lista) {
+window.insertPeople = lista => {
 	var kontakt = (id, type, desc) => `
 		<div id="divKontaktMain_${id}" class="classKontakt">
 			<input id="divKontaktCheckbox_${id}" type="checkbox" class="classKontaktCheckbox${type}" style="float: right;" />

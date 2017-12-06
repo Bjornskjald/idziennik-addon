@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name		iDziennik Extended
-// @namespace   https://raw.githubusercontent.com/Bjornskjald/idziennikextended/master/idziennikextended.user.js
+// @name		iDziennik
+// @namespace   https://raw.githubusercontent.com/Bjornskjald/idziennik-userscript/master/idziennik-userscript.user.js
 // @include     https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx
-// @downloadURL https://raw.githubusercontent.com/Bjornskjald/idziennikextended/master/idziennikextended.user.js
+// @downloadURL https://raw.githubusercontent.com/Bjornskjald/idziennik-userscript/master/idziennik-userscript.user.js
 // @version     2.0.0-pre2
 // @grant       none
 // @run-at		document-idle

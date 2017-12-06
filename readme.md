@@ -17,7 +17,7 @@ Aktualnie wtyczka dodaje wysyłanie wiadomości z konta ucznia (jeżeli zostało
 
 #### Na stałe:
 - Wtyczka:
-Pobierz najnowszą wersję wtyczki ze [strony wydań](https://github.com/Bjornskjald/idziennik-addon/releases) lub (w przypadku Firefoxa) pobierz wtyczkę z oficjalnej strony [tutaj](https://addons.mozilla.org/pl/firefox/addon/idziennik/)
+Pobierz najnowszą wersję wtyczki ze [strony wydań](https://github.com/Bjornskjald/idziennik-addon/releases)
 
 - Greasemonkey/Tampermonkey:
 Jeżeli masz rozszerzenie GreaseMonkey lub TamperMonkey, możesz zainstalować skrypt [tutaj](https://github.com/Bjornskjald/idziennik-addon/raw/master/idziennik.user.js).

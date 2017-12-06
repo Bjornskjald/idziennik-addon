@@ -10,6 +10,40 @@
 $('#iListView_table1_ToolBar').html('') // Usun istniejacy panel
 iListView_utworzPanel(cTableName) // Dodaj nowy panel z przyciskiem "Nowy"
 
+window.insertPeople = lista => {
+	var kontakt = (id, type, desc) => `
+		<div id="divKontaktMain_${id}" class="classKontakt">
+			<input id="divKontaktCheckbox_${id}" type="checkbox" class="classKontaktCheckbox${type}" style="float: right;" />
+			<label for="divKontaktCheckbox_${id}" style="cursor:pointer; width: 90%;" >
+				${desc}
+			</label>
+		</div>
+	`
+	Promise.all(lista.Pracownicy.map(pracownik => new Promise(done => {
+		var desc = []
+		if (pracownik.CzyJestNauczycielem) desc.push('nauczyciel')
+		if (pracownik.CzyJestWychowawca) desc.push('wychowawca')
+		desc.push(pracownik.ListaTypow.join(', '))
+		done(kontakt(pracownik.Id, 'Teach', pracownik.ImieNazwisko + ': ' + desc.join(', ')))
+	})))
+	.then(e => document.getElementById('spanPracownicy').innerHTML = e.join(''))
+
+	Promise.all(lista.Rodzice.map(rodzic => new Promise(done => done(kontakt(rodzic.Id, 'Par', rodzic.ImieNazwisko + ', klasa: ' + lista.Klasy[rodzic.IdKlasa])))))
+	.then(e => document.getElementById('spanRodzice').innerHTML = e.join(''))
+
+	Promise.all(lista.Uczniowie.map(uczen => new Promise(done => {
+		var desc = []
+		if (uczen.Skreslony) desc.push('skreslony')
+		var matka = lista.Rodzice.find(e => uczen.Matka === e.Id)
+		var ojciec = lista.Rodzice.find(e => uczen.Ojciec === e.Id)
+		if (matka) desc.push('matka: ' + matka.ImieNazwisko)
+		if (ojciec) desc.push('ojciec: ' + ojciec.ImieNazwisko)
+		desc.push('klasa: ' + lista.Klasy[uczen.IdKlasa])
+		done(kontakt(uczen.Id, 'Stu', uczen.ImieNazwisko + ', ' + desc.join(', ')))
+	})))
+	.then(e => document.getElementById('spanUczniowie').innerHTML = e.join(''))
+}
+
 window.openContacts = result => {
 	if (result.d.Bledy.CzyJestBlad) return jAlert('System zwrócił błąd o następującej treści:<br/>"<font color=red>' + result.d.Bledy.ListaBledow[0] + '</font>"')
 	var lista = {
@@ -20,7 +54,7 @@ window.openContacts = result => {
 	}
 	result.d.ListK_Klasy.forEach(e => lista.Klasy[e.IdKlasa] = e.Klasa)
 	$("#dialog_kontakt").dialog('open')
-	insertPeople(lista).then()
+	insertPeople(lista)
 	$("#accordionUzytkownicy").tabs()
 	$.uiUnlock()
 }
@@ -73,38 +107,4 @@ window.iListView_newRecord = (tableID, isReply) => {
 	Komunikator.SetTitle('')
 	$(".ui-dialog:visible").css('background', 'url("../Images/DialogBackground.jpg") no-repeat right top #fff')
 	$(".ui-dialog").css({"width": "800px"})
-}
-
-window.insertPeople = lista => {
-	var kontakt = (id, type, desc) => `
-		<div id="divKontaktMain_${id}" class="classKontakt">
-			<input id="divKontaktCheckbox_${id}" type="checkbox" class="classKontaktCheckbox${type}" style="float: right;" />
-			<label for="divKontaktCheckbox_${id}" style="cursor:pointer; width: 90%;" >
-				${desc}
-			</label>
-		</div>
-	`
-	Promise.all(lista.Pracownicy.map(pracownik => new Promise(done => {
-		var desc = []
-		if (pracownik.CzyJestNauczycielem) desc.push('nauczyciel')
-		if (pracownik.CzyJestWychowawca) desc.push('wychowawca')
-		desc.push(pracownik.ListaTypow.join(', '))
-		done(kontakt(pracownik.Id, 'Teach', pracownik.ImieNazwisko + ': ' + desc.join(', ')))
-	})))
-	.then(e => document.getElementById('spanPracownicy').innerHTML = e.join(''))
-
-	Promise.all(lista.Rodzice.map(rodzic => new Promise(done => done(kontakt(rodzic.Id, 'Par', rodzic.ImieNazwisko + ', klasa: ' + lista.Klasy[rodzic.IdKlasa])))))
-	.then(e => document.getElementById('spanRodzice').innerHTML = e.join(''))
-
-	Promise.all(lista.Uczniowie.map(uczen => new Promise(done => {
-		var desc = []
-		if (uczen.Skreslony) desc.push('skreslony')
-		var matka = lista.Rodzice.find(e => uczen.Matka === e.Id)
-		var ojciec = lista.Rodzice.find(e => uczen.Ojciec === e.Id)
-		if (matka) desc.push('matka: ' + matka.ImieNazwisko)
-		if (ojciec) desc.push('ojciec: ' + ojciec.ImieNazwisko)
-		desc.push('klasa: ' + lista.Klasy[uczen.IdKlasa])
-		done(kontakt(uczen.Id, 'Stu', uczen.ImieNazwisko + ', ' + desc.join(', ')))
-	})))
-	.then(e => document.getElementById('spanUczniowie').innerHTML = e.join(''))
 }

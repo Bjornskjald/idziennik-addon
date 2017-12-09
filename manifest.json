@@ -13,11 +13,11 @@
 
     "content_scripts": [{
       "matches": ["https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx"],
-      "js": ["content.js"]
+      "js": ["komunikator.js"]
     }],
 
     "web_accessible_resources": [
-      "idziennik.user.js"
+      "komunikator.user.js"
     ],
 
     "permissions": [

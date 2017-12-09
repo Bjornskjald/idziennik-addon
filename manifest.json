@@ -11,15 +11,6 @@
       "96": "icons/96.png"
     },
 
-<<<<<<< Updated upstream
-    "content_scripts": [{
-      "matches": ["https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx"],
-      "js": ["content.js"]
-    }],
-
-    "web_accessible_resources": [
-      "idziennik.user.js"
-=======
     "content_scripts": [
       {
         "matches": ["https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx"],
@@ -34,7 +25,6 @@
     "web_accessible_resources": [
       "komunikator.user.js",
       "obecnosci.user.js"
->>>>>>> Stashed changes
     ],
 
     "permissions": [

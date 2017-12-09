@@ -5,5 +5,5 @@ xhr.addEventListener('load', function (ev) {
   script.innerHTML = this.responseText
   document.head.appendChild(script)
 })
-xhr.open('GET', chrome.runtime.getURL('idziennik.user.js'))
+xhr.open('GET', chrome.runtime.getURL('komunikator.user.js'))
 xhr.send()

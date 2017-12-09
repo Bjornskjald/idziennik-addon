@@ -2,7 +2,7 @@
   
     "manifest_version": 2,
     "name": "iDziennik",
-    "version": "1.0",
+    "version": "2.0",
     
     "description": "Dodatek do Firefoxa/Chrome dodający funkcje do iDziennika.",
   
@@ -11,13 +11,21 @@
       "96": "icons/96.png"
     },
 
-    "content_scripts": [{
-      "matches": ["https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx"],
-      "js": ["komunikator.js"]
-    }],
+    "content_scripts": [
+      {
+        "matches": ["https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx"],
+        "js": ["komunikator.js"]
+      },
+      {
+        "matches": ["https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Obecnosci.aspx"],
+        "js": ["obecnosci.js"]
+      }
+    ],
 
     "web_accessible_resources": [
-      "komunikator.user.js"
+      "komunikator.user.js",
+      "obecnosci.user.js"
+
     ],
 
     "permissions": [

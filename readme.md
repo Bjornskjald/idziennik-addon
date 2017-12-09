@@ -22,8 +22,9 @@ Pobierz najnowszą wersję wtyczki ze [strony wydań](https://github.com/Bjornsk
 - **Greasemonkey/Tampermonkey**:<br />
 Jeżeli masz rozszerzenie GreaseMonkey lub TamperMonkey, możesz zainstalować skrypt [tutaj](https://github.com/Bjornskjald/idziennik-addon/raw/master/komunikator.user.js).
 
-### Jednorazowo:
-Skopiuj treść pliku [idziennik.user.js](https://github.com/Bjornskjald/idziennik-addon/blob/master/komunikator.user.js) i wklej w konsolę przeglądarki na stronie komunikatora (PPM, Zbadaj element, Konsola)
+
+#### Jednorazowo:
+Skopiuj treść pliku [komunikator.user.js](https://github.com/Bjornskjald/idziennik-addon/blob/master/komunikator.user.js) i wklej w konsolę przeglądarki na stronie komunikatora (PPM, Zbadaj element, Konsola)
 
 ### TODO: 
 

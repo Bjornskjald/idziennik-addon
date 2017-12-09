@@ -20,10 +20,10 @@ Aktualnie wtyczka dodaje wysyłanie wiadomości z konta ucznia (jeżeli zostało
 Pobierz najnowszą wersję wtyczki ze [strony wydań](https://github.com/Bjornskjald/idziennik-addon/releases)
 
 - Greasemonkey/Tampermonkey:
-Jeżeli masz rozszerzenie GreaseMonkey lub TamperMonkey, możesz zainstalować skrypt [tutaj](https://github.com/Bjornskjald/idziennik-addon/raw/master/idziennik.user.js).
+Jeżeli masz rozszerzenie GreaseMonkey lub TamperMonkey, możesz zainstalować skrypt [tutaj](https://github.com/Bjornskjald/idziennik-addon/raw/master/komunikator.user.js).
 
 #### Jednorazowo:
-Skopiuj treść pliku [idziennik.user.js](https://github.com/Bjornskjald/idziennik-addon/blob/master/idziennik.user.js) i wklej w konsolę przeglądarki (PPM, Zbadaj element, Konsola)
+Skopiuj treść pliku [idziennik.user.js](https://github.com/Bjornskjald/idziennik-addon/blob/master/komunikator.user.js) i wklej w konsolę przeglądarki na stronie komunikatora (PPM, Zbadaj element, Konsola)
 
 #### TODO: 
 

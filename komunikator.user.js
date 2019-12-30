@@ -2,6 +2,7 @@
 // @name		iDziennik-Komunikator
 // @namespace   https://raw.githubusercontent.com/Bjornskjald/idziennik-addon/master/komunikator.user.js
 // @include     https://iuczniowie.pe.szczecin.pl/mod_panelRodzica/Komunikator.aspx
+// @include     https://iuczniowie.progman.pl/idziennik/mod_panelRodzica/Komunikator.aspx
 // @downloadURL https://raw.githubusercontent.com/Bjornskjald/idziennik-addon/master/komunikator.user.js
 // @version     2.0.0
 // @grant       none
@@ -57,7 +58,6 @@ window.openContacts = result => {
 	$("#dialog_kontakt").dialog('open')
 	insertPeople(lista)
 	$("#accordionUzytkownicy").tabs()
-	$.uiUnlock()
 }
 
 window.getData = () => {
@@ -86,7 +86,6 @@ window.getData = () => {
 		`)
 	$('.buttonsSelect').button()
 	listaTypow = []
-	$.uiLock('defaultLoadingLock')
 	$.ajax({
 		type: "POST",
 		url: cWS_name + "/pobierzListeOdbiorcow",
@@ -117,4 +116,115 @@ window.zapiszOdbiorcow = () => {
 		listaNazwisk.push(el.dataset.name)
 	})
 	document.querySelector('#nazwiskaOdbiorcow').innerHTML = listaNazwisk.join('; ')
+}
+
+window.pobranoWiadomosc = function pobranoWiadomosc(result)
+{
+    var wielkoscSkroconejListyOdbiorcow = 3;  //Dlugosc skroconej listy elementow
+
+    var odbiorcy;
+    odbiorcyPelnaLista = [];
+    odbiorcySkroconaLista = [];
+    var iloscWyswietlanychOdbiorcow = result.d.Wiadomosc.ListaOdbiorcow.length;
+    var $divTemp = $('<div>');
+
+    for (var i = 0; i < iloscWyswietlanychOdbiorcow; i++)
+    {
+        odbiorcyPelnaLista.push('<div class="odbiorca">');
+        odbiorcyPelnaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].Status == "1" ?
+            '<img src="../Images/mailappt.png" class="ikonaStatusu" title="Wiadomość odebrana" />' :
+            '<img src="../Images/msn_newmsg.png" class="ikonaStatusu" title="Oczekiwanie na potwierdzenie odebrania wiadomości"/>');
+        if (i == iloscWyswietlanychOdbiorcow - 1)
+            odbiorcyPelnaLista.push($divTemp.text(result.d.Wiadomosc.ListaOdbiorcow[i].NazwaOdbiorcy).html() + '</div> ');
+        else
+            odbiorcyPelnaLista.push($divTemp.text(result.d.Wiadomosc.ListaOdbiorcow[i].NazwaOdbiorcy).html() + ',</div> ');
+
+        if (i < wielkoscSkroconejListyOdbiorcow)
+        {
+            odbiorcySkroconaLista.push('<div class="odbiorca">');
+            odbiorcySkroconaLista.push(result.d.Wiadomosc.ListaOdbiorcow[i].Status == "1" ?
+                '<img src="../Images/mailappt.png" class="ikonaStatusu" title="Wiadomość odebrana" />' :
+                '<img src="../Images/msn_newmsg.png" class="ikonaStatusu" title="Oczekiwanie na potwierdzenie odebrania wiadomości" />');
+            odbiorcySkroconaLista.push($divTemp.text(result.d.Wiadomosc.ListaOdbiorcow[i].NazwaOdbiorcy).html() + ',</div> ');
+        }
+    }
+
+    if (iloscWyswietlanychOdbiorcow > wielkoscSkroconejListyOdbiorcow)
+    {
+        odbiorcy = odbiorcySkroconaLista.join('') + '<div class="odbiorca">...</div><div id="wiecejOdbiorcow" onclick="pokazWiecej()">[Rozwiń]</div>';
+        trybWyswietlaniaOdbiorcow = 0;
+    }
+    else
+    {
+        odbiorcy = odbiorcyPelnaLista.join('');
+        trybWyswietlaniaOdbiorcow = 1;
+    }
+
+    var temp = [];
+
+    if (result.d.Wiadomosc.ListaZal.length > 0) {
+        $divTemp.html('');
+        temp.push('<div>');
+        temp.push('<div class="nazwaAtrybutu" style="float: left;">Załączniki:</div>');
+        var address = window.location.pathname.substring(0, window.location.pathname.indexOf("mod_"));
+
+        for (var nZal = 0; nZal < result.d.Wiadomosc.ListaZal.length; nZal++) {
+            var $div = $('<div style="float: left;">');
+            $divTemp.append($div);
+
+            var $form = $('<form method="POST" target="iframeResponseOdczyt" >');
+            $form.attr({ 'id': 'formDownload_' + result.d.Wiadomosc.ListaZal[nZal].Id, 'action': address + 'mod_komunikator/Download.ashx' });
+            $div.append($form);
+
+            var $input = $('<input name="id" type="hidden" style="display: none;" />');
+            $input.attr('value', result.d.Wiadomosc._recordId);
+            $form.append($input);
+
+            $input = $('<input name="fileName" type="hidden" style="display: none;" />');
+            $input.attr('value', result.d.Wiadomosc.ListaZal[nZal].Nazwa);
+            $form.append($input);
+
+            var $a = $('<a class="attachLink">,');
+            $a.attr('id', 'zal_' + result.d.Wiadomosc.ListaZal[nZal].Id);
+            $a.text(result.d.Wiadomosc.ListaZal[nZal].Nazwa);
+            $form.append($a);
+
+            $form.append(document.createTextNode(','));
+        }
+        temp.push($divTemp.html());
+        temp.push('</div>');
+    }
+
+    temp.push('<iframe id="iframeResponseOdczyt" name="iframeResponseOdczyt" style="display: none;"></iframe>');
+
+    var tempDialog = [];
+    tempDialog.push('<div class="wiersz1">');
+    tempDialog.push('<div class="lewyNagl">');
+    tempDialog.push('<div class="nazwaAtrybutu">Nadawca: </div>');
+    tempDialog.push('<div class="wartoscAtrybutu">' + $divTemp.text(result.d.Wiadomosc.Nadawca).html() + '</div>');
+    tempDialog.push('</div>');
+    tempDialog.push('<div class="prawyNagl">');
+    tempDialog.push('<div class="nazwaAtrybutu">Data nadania: </div>');
+    tempDialog.push('<div class="wartoscAtrybutu">' + $divTemp.text(result.d.Wiadomosc.DataNadania).html() + '</div>');
+    tempDialog.push('</div>');
+    tempDialog.push('</div>');
+    tempDialog.push('<div class="nazwaAtrybutu">Odbiorcy: </div>');
+    tempDialog.push('<div id="odbiorcy">' + odbiorcy + '</div>');
+    tempDialog.push(temp.join(''));
+    tempDialog.push('<p style="text-align:justify; white-space:pre-wrap;">Temat: <b><u>');
+    tempDialog.push('<span sid="temat">' + $divTemp.text(result.d.Wiadomosc.Tytul).html() + '</span>');
+    tempDialog.push('</div>');
+    tempDialog.push('</u></b><br/><br/></p>');
+    tempDialog.push('<span sid="tresc">' + result.d.Wiadomosc.Text.split("\n").join("<br>") + '</span>');
+
+    $("#dialogOdczyt").html(tempDialog.join(''));
+
+    for (var nZal = 0; nZal < result.d.Wiadomosc.ListaZal.length; nZal++) {
+        document.getElementById('zal_' + result.d.Wiadomosc.ListaZal[nZal].Id).onclick = OnZalacznikClick;
+    }
+
+    document.getElementById('iframeResponseOdczyt').onload = OnIframeResponeOdczytLoadHandler;
+
+    $("#dialogOdczyt").dialog('open');
+    refreshGrid(cTableName);
 }
